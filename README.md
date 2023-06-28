@@ -1,10 +1,23 @@
+## 优化
+
+```bash
+# store
+
+1.变更store,以命名空间划分
+
+2.将请求分类列表数据进行session缓存,以减轻服务器压力
+# store
+
+
+```
+
 # vue2-shop
 
 > A Vue.js project
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 

@@ -34,7 +34,7 @@ export default new Router({
       component: () => import('../pages/Register'),
       meta: { show: false }
     }, {
-      path: '/Search',
+      path: '/search',
       name: 'Search',
       component: () => import('../pages/Search'),
       meta: { show: true }

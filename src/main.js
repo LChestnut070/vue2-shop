@@ -5,14 +5,10 @@ import App from './App'
 import router from './router'
 import store from './store'
 // 引入第三方组件
-
-import { getCategoryList } from './api'
-getCategoryList()
+import './mock/mockServer'
 
 // 引入三级联动组件
 import TypeNav from './pages/Home/TypeNav'
-import requests from './api/request'
-
 
 Vue.config.productionTip = false
 Vue.prototype.$bus = new Vue()
