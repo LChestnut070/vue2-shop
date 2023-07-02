@@ -33,8 +33,8 @@
       </h1>
       <div class="searchArea">
         <form action="###" class="searchForm">
-          <input type="text" id="autocomplete" class="input-error input-xxlarge" />
-          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="toIndex">搜索</button>
+          <input type="text" id="autocomplete" class="input-error input-xxlarge" v-model="keyword" />
+          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="toSearch">搜索</button>
         </form>
       </div>
     </div>
@@ -52,8 +52,23 @@ export default {
     };
   },
   methods: {
-    toIndex() {
-      this.$router.push({ name: 'Search' })
+    toSearch() {
+      // 从搜索栏搜索时因为没有分类词，故需要先把分类词与分类id清空
+      this.$route.query.category1Id = undefined;
+      this.$route.query.category2Id = undefined
+      this.$route.query.category3Id = undefined
+      this.$route.query.categoryName = undefined
+      let location = {
+        name: "Search",
+        params: { keyword: this.keyword || undefined }
+      }
+      location.query = this.$route.query
+      if (this.$route.path !== '/home') {
+        this.$router.replace(location)
+      } else {
+        this.$router.push(location)
+      }
+
     }
   }
 };

@@ -1,20 +1,20 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <myHeader></myHeader>
     <router-view />
     <!-- 通过路由定义meta参数判断组件的显示 -->
-    <Footer v-show="$route.meta.show"></Footer>
+    <myFooter v-show="$route.meta.show"></myFooter>
   </div>
 </template>
 
 <script>
-import Header from './components/Header'
-import Footer from './components/Footer'
+import myHeader from './components/Header'
+import myFooter from './components/Footer'
 export default {
   name: 'App',
   components: {
-    Header,
-    Footer
+    myHeader,
+    myFooter
   },
   mounted() {
   }

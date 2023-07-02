@@ -34,7 +34,8 @@ export default new Router({
       component: () => import('../pages/Register'),
       meta: { show: false }
     }, {
-      path: '/search',
+      //代表params参数可有可无，务必要加上?
+      path: '/search/:keyword?',
       name: 'Search',
       component: () => import('../pages/Search'),
       meta: { show: true }

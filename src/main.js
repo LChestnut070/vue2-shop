@@ -7,15 +7,17 @@ import store from './store'
 // 引入第三方组件
 import './mock/mockServer'
 
-// 引入三级联动组件
-import TypeNav from './pages/Home/TypeNav'
-
+// 引入公共组件
+import TypeNav from './components/TypeNav'
+import Carousel from './components/Carousel'
+import Pagination from './components/Pagination'
 Vue.config.productionTip = false
 Vue.prototype.$bus = new Vue()
 
 // 注册组件，第一个参数组件名字，第二个组件想要注册的组件
 Vue.component(TypeNav.name, TypeNav)
-
+Vue.component(Carousel.name, Carousel)
+Vue.component(Pagination.name, Pagination)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

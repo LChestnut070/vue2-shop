@@ -75,7 +75,7 @@ export default {
     // },
     changeIndex: throttle(function (index) {
       this.currentIndex = index
-    }, 50),
+    }, 5),
     // 动态删除类名及动态展示分类列表
     moveIndex() {
       this.currentIndex = -1
@@ -92,6 +92,8 @@ export default {
         //整理路由跳转的参数
         let location = { name: 'Search' }//跳转路由name
         let query = { categoryName: categoryname }//路由参数
+        // 因为从分类列表进入没有params参数，故需要清空params参数
+        let params = { keyword: undefined }
         // 如果这些id都存在,则赋值
         if (categoryid1) {
           query.category1Id = categoryid1
@@ -102,6 +104,7 @@ export default {
         }
         //整理参数
         location.query = query
+        location.params = params
         //路由跳转
         this.$router.push(location)
 
@@ -120,8 +123,8 @@ export default {
     }
   },
   computed: {
-    ...mapActions('m_search', ['getCategoryList']),
-    ...mapState('m_search', ['categorylist'])
+    ...mapActions('m_home', ['getCategoryList']),
+    ...mapState('m_home', ['categorylist'])
   }
 }
 </script>

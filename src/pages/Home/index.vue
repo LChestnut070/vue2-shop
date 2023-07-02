@@ -5,7 +5,7 @@
     <Recommend></Recommend>
     <Rank></Rank>
     <Like></Like>
-    <Floor></Floor>
+    <Floor v-for="item in floorlist" :key="item.id" :list="item"></Floor>
     <Brand></Brand>
   </div>
 </template>
@@ -18,7 +18,7 @@ import Like from './Like'
 import Floor from './Floor'
 import Brand from './Brand'
 
-
+import { mapActions, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -33,6 +33,13 @@ export default {
     Floor,
     Brand
   },
+  mounted() {
+    this.getFloorList
+  },
+  computed: {
+    ...mapActions('m_home', ['getFloorList']),
+    ...mapState('m_home', ['floorlist'])
+  }
 
 }
 </script>
