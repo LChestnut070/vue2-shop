@@ -31,3 +31,27 @@ export const reqGetSearchInfo = (data) => {
     data
   })
 }
+
+// 获取商品详细信息
+export const reqGetGoodsInfo = (skuid) => {
+  return requests({
+    url: `/item/${skuid}`,
+    method: 'get'
+  })
+}
+
+// 将产品添加到购物车
+export const reqUpdateCart = (skuId, skuNum) => {
+  return requests({
+    url: `/cart/addToCart/${skuId}/${skuNum}`,
+    method: 'post'
+  })
+}
+
+// 获取购物车商品列表
+export const reqGetCartList = () => {
+  return requests({
+    url: '/cart/cartList',
+    method: 'get'
+  })
+}

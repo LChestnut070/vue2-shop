@@ -34,9 +34,9 @@
                 <div class="list-wrap">
                   <!-- 商品图片 -->
                   <div class="p-img">
-                    <a href="item.html" target="_blank">
+                    <router-link :to="`/detail/${goodslist.id}`">
                       <img :src="goodslist.defaultImg" />
-                    </a>
+                    </router-link>
                   </div>
                   <!-- 商品价格 -->
                   <div class="price">
@@ -48,7 +48,7 @@
                   </div>
                   <!-- 商品名称 -->
                   <div class="attr">
-                    <a target="_blank" href="item.html" :title="goodslist.title">{{ goodslist.title }}}</a>
+                    <a target="_blank" :title="goodslist.title">{{ goodslist.title }}}</a>
                   </div>
                   <!-- 商品评价数 -->
                   <div class="commit">
@@ -56,8 +56,8 @@
                   </div>
                   <!-- 对商品的操作 -->
                   <div class="operate">
-                    <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                    <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
+                    <a target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
+                    <a class="sui-btn btn-bordered">收藏</a>
                   </div>
                 </div>
               </li>

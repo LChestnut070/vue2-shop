@@ -39,6 +39,24 @@ export default new Router({
       name: 'Search',
       component: () => import('../pages/Search'),
       meta: { show: true }
+    }, {
+      path: '/detail/:skuid?',
+      name: 'Detail',
+      component: () => import('../pages/Detail'),
+      meta: { show: true }
+    }, {
+      path: '/addcartsuccess',
+      name: 'Addcartsuccess',
+      component: () => import('../pages/Addcartsuccess'),
+      meta: { show: true }
+    }, {
+      path: '/shopcart',
+      name: 'ShopCart',
+      component: () => import('../pages/ShopCart'),
+      meta: { show: true }
     }
-  ]
+  ],
+  scrollBehavior() {
+    return { y: 0 }
+  }
 })

@@ -10,11 +10,6 @@ const state = {
 };
 // 修改state
 const mutations = {
-  // saveToStorage(data) {
-  //   window.sessionStorage.setItem(`${data}`, JSON.stringify('`${state.data}`'))
-  //   console.log(2);
-  //   console.log(JSON.parse(window.sessionStorage.getItem("categorylist")));
-  // },
   // 分类列表赋值
   GETCATEGORYLIST(state, categorylist) {
     state.categorylist = categorylist

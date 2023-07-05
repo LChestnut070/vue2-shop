@@ -21,6 +21,10 @@ Vue.component(Pagination.name, Pagination)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  beforeCreate() {
+    Vue.prototype.$bus = this;
+
+  },
   router,
   store,
   components: { App },
