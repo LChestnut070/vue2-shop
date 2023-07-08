@@ -12,9 +12,15 @@ const requests = axios.create({
 
 // 请求拦截器
 requests.interceptors.request.use(config => {
+  // 添加uuid(临时身份)
   if (store.state.m_detail.uuid_token) {
     config.headers.userTempId = store.state.m_detail.uuid_token
   }
+  // 添加token
+  if (store.state.m_user.token) {
+    config.headers.token = store.state.m_user.token
+  }
+  // 加载动画
   nprogress.start();
   // 配置对象，对象里有header请求头
   return config

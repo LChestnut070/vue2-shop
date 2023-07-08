@@ -6,10 +6,15 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userName">
             <span>请</span>
-            <a href="###">登录</a>
-            <a href="###" class="register">免费注册</a>
+            <a @click="toLogin">登录</a>
+            <a @click="toRegister" class="register">免费注册</a>
+          </p>
+          <p v-else>
+            <span>|</span>
+            <span>{{ userName }}</span>
+            <a href="" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -27,8 +32,8 @@
     <!--头部第二行 搜索区域-->
     <div class="bottom">
       <h1 class="logoArea">
-        <a class="logo" title="尚品汇" href="###" target="_blank">
-          <img src="./images/logo.png" alt="">
+        <a class="logo" href="#">
+          <img src="./images/logo.png" alt="" @click="$router.push({ name: 'Home' })">
         </a>
       </h1>
       <div class="searchArea">
@@ -42,6 +47,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 export default {
   //给组件起一个名字,开发者工具中显示这个组件的时候，显示的就是这个名字
   name: "Header",
@@ -52,6 +58,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions('m_user', ['userLogout', 'getUserInfo']),
     toSearch() {
       // 从搜索栏搜索时因为没有分类词，故需要先把分类词与分类id清空
       this.$route.query.category1Id = undefined;
@@ -69,8 +76,29 @@ export default {
         this.$router.push(location)
       }
 
+    },
+    toLogin() {
+      this.$router.push({ name: 'Login' })
+    },
+    toRegister() {
+      this.$router.push({ name: 'Register' })
+    },
+    // 退出登录
+    async logout() {
+      try {
+        await this.userLogout()
+        this.$router.push({ name: 'Home' })
+      } catch (error) {
+
+      }
     }
-  }
+  },
+  computed: {
+    ...mapState('m_user', ['userinfo']),
+    userName() {
+      return this.userinfo.name
+    }
+  },
 };
 </script>
 

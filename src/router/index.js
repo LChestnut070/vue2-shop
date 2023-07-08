@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import store from '../store';
+import { removeToken } from '../utils/token';
 Vue.use(Router)
 
 //1、先把VueRouter原型对象的push，保存一份
@@ -16,7 +17,8 @@ Router.prototype.replace = function (location) {
 }
 
 
-export default new Router({
+
+let router = new Router({
   routes: [
     {
       path: '/',
@@ -54,9 +56,51 @@ export default new Router({
       name: 'ShopCart',
       component: () => import('../pages/ShopCart'),
       meta: { show: true }
+    }, {
+      path: '/trade',
+      name: 'Trade',
+      component: () => import('../pages/Trade'),
+      meta: { show: true }
+    }, {
+      path: '/pay',
+      name: 'Pay',
+      component: () => import('../pages/Pay'),
+      meta: { show: true }
     }
   ],
   scrollBehavior() {
     return { y: 0 }
   }
 })
+
+router.beforeEach(async (to, from, next) => {
+  // console.log('to', to);
+  // console.log('from', from);
+  // next() 全部放行,next('/home')放行到home
+  if (store.state.m_user.token) {
+    if (to.path == '/login') {
+      // 如果登录了还想登录是不行哒~
+      alert('登录了还想再登录?不行哒~先退出再登录噢')
+      next('/')
+    } else {
+      // 如果有token和用户信息
+      if (store.state.m_user.userinfo.name) {
+        next()
+      } else {
+        try {
+          // 没有就再次请求用户信息
+          await store.dispatch('m_user/getUserInfo')
+          next()
+        } catch (error) {
+          // 退出登录并重新进入登录界面
+          await store.dispatch('m_user/userLogout')
+          next('/login')
+        }
+      }
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

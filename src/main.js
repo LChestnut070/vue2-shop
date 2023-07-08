@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 // 引入第三方组件
 import './mock/mockServer'
-
+import * as API from './api/index'
 // 引入公共组件
 import TypeNav from './components/TypeNav'
 import Carousel from './components/Carousel'
@@ -23,7 +23,7 @@ new Vue({
   el: '#app',
   beforeCreate() {
     Vue.prototype.$bus = this;
-
+    Vue.prototype.$API = API
   },
   router,
   store,
