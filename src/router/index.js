@@ -60,12 +60,59 @@ let router = new Router({
       path: '/trade',
       name: 'Trade',
       component: () => import('../pages/Trade'),
-      meta: { show: true }
+      meta: { show: true },
+      beforeEnter: (to, from, next) => {
+        if (from.path == '/shopcart') {
+          next()
+        } else {
+          // 其他页面来的全部拦截
+          next(false)
+        }
+      }
     }, {
       path: '/pay',
       name: 'Pay',
       component: () => import('../pages/Pay'),
-      meta: { show: true }
+      meta: { show: true },
+      beforeEnter: (to, from, next) => {
+        if (from.path == '/trade') {
+          next()
+        } else {
+          // 其他页面来的全部拦截
+          next(false)
+        }
+      }
+    }, {
+      path: '/paysuccess',
+      name: 'Paysuccess',
+      component: () => import('../pages/PaySuccess'),
+      meta: { show: true },
+      beforeEnter: (to, from, next) => {
+        if (from.path == '/pay') {
+          console.log(from);
+          next()
+        } else {
+          // 其他页面来的全部拦截
+          next(false)
+        }
+      }
+    }, {
+      path: '/center',
+      name: 'Center',
+      component: () => import('../pages/Center'),
+      meta: { show: true },
+      children: [
+        {
+          path: 'myorder',
+          component: () => import('../pages/Center/myOrder/index.vue')
+        }, {
+          path: 'grouporder',
+          component: () => import('../pages/Center/groupOrder/index.vue')
+        }, {
+          path: '/center',
+          redirect: '/center/myorder'
+        }
+      ]
     }
   ],
   scrollBehavior() {
@@ -73,6 +120,7 @@ let router = new Router({
   }
 })
 
+// 路由守卫
 router.beforeEach(async (to, from, next) => {
   // console.log('to', to);
   // console.log('from', from);
@@ -99,6 +147,10 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
+    if (to.path.indexOf('/trade') != -1 || to.path.indexOf('/pay') != -1 || to.path.indexOf('/paysuccess') != -1 || to.path.indexOf('/center') != -1) {
+      // 重定向如果要跳转的地址被拦截则记录,登录后继续跳转
+      next('/login?redirect=' + to.path)
+    }
     next()
   }
 })

@@ -5,7 +5,7 @@
     <button v-if="start_end.start > 1" @click="$emit('getPageNum', 1)">1</button>
     <button v-if="start_end.start > 2">···</button>
 
-    <button v-for="(page, index) in start_end.end" :key="index" v-if="page >= start_end.start"
+    <button v-for="(page, index) in start_end.end" :key="index" v-show="page >= start_end.start"
       @click="$emit('getPageNum', page)" :class="{ active: pageNo == page }">{{ page }}</button>
 
     <button v-if="start_end.end < pageSum - 1">···</button>

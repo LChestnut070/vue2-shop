@@ -83,7 +83,8 @@ export default {
         if (phone && password) {
           await this.userLogin({ phone, password }).then(() => {
             this.getUserInfo().then(() => {
-              this.$router.push({ path: '/' })
+              // 路由参数中是否有重定向参数,有则跳转
+              this.$router.push(this.$route.query.redirect || "/")
             })
           })
         }

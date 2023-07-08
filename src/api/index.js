@@ -144,3 +144,18 @@ export const reqPayInfo = (orderId) => {
     method: 'get'
   })
 }
+
+// 查询订单支付状态
+export const reqPayState = (orderId) => {
+  return requests({
+    url: `/payment/weixin/queryPayStatus/${orderId}`,
+    method: 'get'
+  })
+}
+// 查询个人中心订单
+export const reqGetMyorder = (page, limit) => {
+  return requests({
+    url: `/order/auth/${page}/${limit}`,
+    method: 'get'
+  })
+}

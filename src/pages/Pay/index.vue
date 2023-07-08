@@ -8,7 +8,7 @@
         </h4>
         <div class="paymark">
           <span class="fl">请您在提交订单<em class="orange time">4小时</em>之内完成支付，超时订单会自动取消。订单号：<em>{{ orderId }}</em></span>
-          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥17,654</em></span>
+          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥{{ payInfo.totalFee }}</em></span>
         </div>
       </div>
       <div class="checkout-info">
@@ -65,7 +65,8 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <!-- <a >立即支付</a> -->
+          <a class="btn" type="text" @click="open">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -82,10 +83,17 @@
 </template>
 
 <script>
+import QRCode from 'qrcode'
 export default {
   name: 'Pay',
+  data() {
+    return {
+      payInfo: {},
+      timer: null,
+      code: ''
+    }
+  },
   computed: {
-
     orderId() {
       return this.$route.query.orderId
     }
@@ -94,8 +102,59 @@ export default {
     this.getPayInfo()
   },
   methods: {
-    getPayInfo() {
-      // this.$API.reqPayInfo(this.orderId)
+    // 获取支付信息
+    async getPayInfo() {
+      const res = await this.$API.reqPayInfo(this.orderId)
+      console.log(res);
+      if (res.code == 200) {
+        this.payInfo = res.data
+      }
+
+    },
+    open() {
+      QRCode.toDataURL(this.payInfo.codeUrl).then(url => {
+        this.$alert(`<img src=${url} />`, '请进行微信支付', {
+          dangerouslyUseHTMLString: true,
+          center: true,
+          showCancelButton: true,
+          cancelButtonText: "支付遇见问题",
+          confirmButtonText: "已成功支付",
+          showClose: false,
+          beforeClose: (type, instance, done) => {
+            if (type == 'cancel') {
+              alert('请联系管理员QQ: 2117764507')
+              clearInterval(this.timer);
+              this.timer = null
+              done()
+            } else {
+              if (this.code == 200) {
+                clearInterval(this.timer)
+                this.timer = null;
+                this.$msgbox.close()
+                this.$router.push({ name: 'Paysuccess' })
+              } else {
+                alert("您似乎还没有完成支付,可以稍等片刻后再次验证")
+              }
+            }
+          }
+        });
+        if (!this.timer) {
+          this.timer = setInterval(async () => {
+            await this.$API.reqPayState(this.payInfo.orderId).then((res) => {
+              if (res.code == 205) {
+                clearInterval(this.timer)
+                this.timer = null;
+                this.code = res.code
+                this.$msgbox.close()
+                this.$router.push({ name: 'Paysuccess' })
+              }
+            })
+
+          }, 1000)
+        }
+      }).catch(err => {
+        console.error(err)
+      })
     }
   },
 }

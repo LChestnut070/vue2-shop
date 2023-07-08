@@ -7,17 +7,24 @@ import store from './store'
 // 引入第三方组件
 import './mock/mockServer'
 import * as API from './api/index'
+import { MessageBox, Button } from 'element-ui';
 // 引入公共组件
 import TypeNav from './components/TypeNav'
 import Carousel from './components/Carousel'
 import Pagination from './components/Pagination'
+
 Vue.config.productionTip = false
 Vue.prototype.$bus = new Vue()
+
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$alert = MessageBox.alert;
 
 // 注册组件，第一个参数组件名字，第二个组件想要注册的组件
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carousel.name, Carousel)
 Vue.component(Pagination.name, Pagination)
+Vue.component(MessageBox.name, MessageBox)
+Vue.component(Button.name, Button)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

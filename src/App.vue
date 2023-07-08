@@ -21,4 +21,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+body {
+  padding-right: 0 !important;
+}
+</style>
