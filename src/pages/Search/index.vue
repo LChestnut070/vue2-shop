@@ -35,7 +35,7 @@
                   <!-- 商品图片 -->
                   <div class="p-img">
                     <router-link :to="`/detail/${goodslist.id}`">
-                      <img :src="goodslist.defaultImg" />
+                      <img v-lazy="goodslist.defaultImg" />
                     </router-link>
                   </div>
                   <!-- 商品价格 -->
@@ -322,8 +322,9 @@ export default {
 
                   img {
                     max-width: 100%;
-                    width: 100%;
+                    width: auto;
                     height: auto;
+                    max-height: 100%;
                     vertical-align: middle;
                   }
                 }

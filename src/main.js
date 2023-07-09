@@ -8,6 +8,7 @@ import store from './store'
 import './mock/mockServer'
 import * as API from './api/index'
 import { MessageBox, Button } from 'element-ui';
+import VueLazyload from 'vue-lazyload'
 // 引入公共组件
 import TypeNav from './components/TypeNav'
 import Carousel from './components/Carousel'
@@ -25,6 +26,14 @@ Vue.component(Carousel.name, Carousel)
 Vue.component(Pagination.name, Pagination)
 Vue.component(MessageBox.name, MessageBox)
 Vue.component(Button.name, Button)
+
+import lazyimg from '../static/images/lazyload.png'
+Vue.use(VueLazyload, {
+  loading: lazyimg
+})
+
+// 引入表单验证插件
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

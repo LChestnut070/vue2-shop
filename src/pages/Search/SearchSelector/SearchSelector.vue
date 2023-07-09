@@ -19,8 +19,8 @@
       <div class="fl key">{{ attrslist.attrName }}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="attrValueList in attrslist.attrValueList" @click="attrInfo(attrslist, attrValueList)"
-            :class="active">
+          <li v-for="attrValueList in attrslist.attrValueList" :key="attrValueList.id"
+            @click="attrInfo(attrslist, attrValueList)" :class="active">
             <a>{{ attrValueList }}</a>
           </li>
         </ul>

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store';
-import { removeToken } from '../utils/token';
 Vue.use(Router)
 
 //1、先把VueRouter原型对象的push，保存一份
@@ -28,12 +27,12 @@ let router = new Router({
     }, {
       path: '/login',
       name: 'Login',
-      component: () => import('../pages/Login'),
+      component: () => import('../pages/Login/index.vue'),
       meta: { show: false }
     }, {
       path: '/register',
       name: 'Register',
-      component: () => import('../pages/Register'),
+      component: () => import('../pages/Register/index.vue'),
       meta: { show: false }
     }, {
       //代表params参数可有可无，务必要加上?
@@ -125,14 +124,16 @@ router.beforeEach(async (to, from, next) => {
   // console.log('to', to);
   // console.log('from', from);
   // next() 全部放行,next('/home')放行到home
-  if (store.state.m_user.token) {
+  let token = store.state.m_user.token
+  let name = store.state.m_user.userinfo.name
+  if (token) {
     if (to.path == '/login') {
       // 如果登录了还想登录是不行哒~
       alert('登录了还想再登录?不行哒~先退出再登录噢')
       next('/')
     } else {
       // 如果有token和用户信息
-      if (store.state.m_user.userinfo.name) {
+      if (name) {
         next()
       } else {
         try {
@@ -147,11 +148,13 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    if (to.path.indexOf('/trade') != -1 || to.path.indexOf('/pay') != -1 || to.path.indexOf('/paysuccess') != -1 || to.path.indexOf('/center') != -1) {
+    let toPath = to.path
+    if (toPath.indexOf('trade') != -1 || toPath.indexOf('pay') != -1 || toPath.indexOf('center') != -1) {
       // 重定向如果要跳转的地址被拦截则记录,登录后继续跳转
-      next('/login?redirect=' + to.path)
+      next('/login?redirect=' + toPath)
+    } else {
+      next()
     }
-    next()
   }
 })
 
